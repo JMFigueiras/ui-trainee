@@ -6,6 +6,8 @@ import {
     Link
 } from "react-router-dom";
 
+import { Nav, NavItem, NavLink } from 'reactstrap';
+
 import Cars from '../pages/Car';
 import Country from '../pages/Country';
 import Home from '../pages/Home';
@@ -16,25 +18,23 @@ export default function BasicExample() {
     return (
         <Router>
             <>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/cars">Cars</Link>
-                    </li>
-                    <li>
-                        <Link to="/countries">Countries</Link>
-                    </li>
-                    <li>
-                        <Link to="/instruments">Instruments</Link>
-                    </li>
-                    <li>
-                        <Link to="/quotes">Quotes</Link>
-                    </li>
-                </ul>
-            </nav>
+            <Nav>
+                <NavItem>
+                    <NavLink tag={Link} to="/">Home</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} to="/cars">Cars</NavLink>
+               </NavItem>
+               <NavItem>
+                    <NavLink tag={Link} to="/countries">Countries</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} to="/instruments">Instruments</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} to="/quotes">Quotes</NavLink>
+                </NavItem>
+            </Nav>
             
             <hr />
 
