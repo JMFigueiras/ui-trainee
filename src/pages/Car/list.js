@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react';
-import DynamicTable from '../components/DynamicTable';
+import Table from '../../components/Table';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
-import {fetchCarsRequested} from '../actions/car';
-
-import keys from 'lodash/keys';
-import head from 'lodash/head';
+import {
+    fetchCarsRequested,
+    sortCar
+} from '../../actions/car'
 
 class App extends PureComponent {
     componentDidMount() {
@@ -13,25 +14,29 @@ class App extends PureComponent {
     }
 
     render() {
-        const {cars} = this.props;
+        const {cars, loading, tableProps, onSort} = this.props;
         return (
             <div>
-                <DynamicTable {...{entities: cars, entityProps: keys(head(cars)), label:'Autos'}}/>
+                <Link to="/car/edit/new"> Nuevo </Link>
+                <hr/>
+                <Table {...{data: cars, ...tableProps, title: 'Autos', onSort: onSort}}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state /* nuestro Store */, ownProps /*  */ ) => {
-    const {cars, loading} = state.car;
+    const {documents: {cars, loading}, tableProps} = state.car;
     return {
+        tableProps,
         cars,
         loading
     };
 }
 
 const mapDispatchToProps = (dispatch /* acciones a disparar */, ownProps /*  */ ) => ({
-    getCars: () => dispatch(fetchCarsRequested())
+    getCars: () => dispatch(fetchCarsRequested()),
+    onSort: sort => dispatch(sortCar(sort))
 })
 
 export default connect(

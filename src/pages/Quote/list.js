@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react';
-import DynamicTable from '../components/DynamicTable';
+import Table from '../../components/Table';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
-import {fetchQuotesRequested} from '../actions/quote';
-
-import keys from 'lodash/keys';
-import head from 'lodash/head';
+import {
+    fetchQuotesRequested,
+    sortQuote
+} from '../../actions/quote'
 
 class App extends PureComponent {
     componentDidMount() {
@@ -13,25 +14,29 @@ class App extends PureComponent {
     }
 
     render() {
-        const {quotes} = this.props;
+        const {quotes, loading, tableProps, onSort} = this.props;
         return (
             <div>
-                <DynamicTable {...{entities: quotes, entityProps: keys(head(quotes)), label:'Frases'}}/>
+                <Link to="/quote/edit/new"> Nuevo </Link>
+                <hr/>
+                <Table {...{data: quotes, ...tableProps, title: 'Quotes', onSort: onSort}}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state /* nuestro Store */, ownProps /*  */ ) => {
-    const {quotes, loading} = state.quote;
+    const {documents: {quotes, loading}, tableProps} = state.quote;
     return {
+        tableProps,
         quotes,
         loading
     };
 }
 
 const mapDispatchToProps = (dispatch /* acciones a disparar */, ownProps /*  */ ) => ({
-    getQuotes: () => dispatch(fetchQuotesRequested())
+    getQuotes: () => dispatch(fetchQuotesRequested()),
+    onSort: sort => dispatch(sortQuote(sort))
 })
 
 export default connect(

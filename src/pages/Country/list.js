@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import Table from '../../components/table';
+import Table from '../../components/Table';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
@@ -7,9 +7,6 @@ import {
     fetchCountriesRequested,
     sortCountry
 } from '../../actions/country'
-
-import keys from 'lodash/keys';
-import head from 'lodash/head';
 
 class App extends PureComponent {
     componentDidMount() {
@@ -22,8 +19,7 @@ class App extends PureComponent {
             <div>
                 <Link to="/country/edit/new"> Nuevo </Link>
                 <hr/>
-                <Table {...{data: countries, ...tableProps, onSort: onSort}}/>
-                {/* <DynamicTable {...{entities: countries, entityProps: tableProps, label: 'Paises', onSort: onSort}}/> */}
+                <Table {...{data: countries, ...tableProps, title: 'Paises', onSort: onSort}}/>
             </div>
         )
     }

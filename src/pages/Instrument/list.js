@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react';
-import DynamicTable from '../components/DynamicTable';
+import Table from '../../components/Table';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
-import {fetchInstrumentsRequested} from '../actions/instrument';
-
-import keys from 'lodash/keys';
-import head from 'lodash/head';
+import {
+    fetchInstrumentsRequested,
+    sortInstrument
+} from '../../actions/instrument'
 
 class App extends PureComponent {
     componentDidMount() {
@@ -13,25 +14,29 @@ class App extends PureComponent {
     }
 
     render() {
-        const {instruments} = this.props;
+        const {instruments, loading, tableProps, onSort} = this.props;
         return (
             <div>
-                <DynamicTable {...{entities: instruments, entityProps: keys(head(instruments)), label:'Instrumentos'}}/>
+                <Link to="/instrument/edit/new"> Nuevo </Link>
+                <hr/>
+                <Table {...{data: instruments, ...tableProps, title: 'Instrumentos', onSort: onSort}}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state /* nuestro Store */, ownProps /*  */ ) => {
-    const {instruments, loading} = state.instrument;
+    const {documents: {instruments, loading}, tableProps} = state.instrument;
     return {
+        tableProps,
         instruments,
         loading
     };
 }
 
 const mapDispatchToProps = (dispatch /* acciones a disparar */, ownProps /*  */ ) => ({
-    getInstruments: () => dispatch(fetchInstrumentsRequested())
+    getInstruments: () => dispatch(fetchInstrumentsRequested()),
+    onSort: sort => dispatch(sortInstrument(sort))
 })
 
 export default connect(
